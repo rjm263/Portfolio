@@ -5,11 +5,38 @@ import pandas as pd
 import yfinance as yf
 
 class Future(Instrument):
-    def __init__(self, name, symbol, price, margin, maturity, amount=1.0, quantity=1, position='l', timestamp=None, notes=None):
+    """
+    Class for futures; inherits from Instrument class.
+
+    Parameters:
+    ----------
+    name: str
+        Name of the asset. Can be any, no need to coincide with symbol.
+    symbol: str
+        The symbol of the financial asset.
+    price: float
+        The price of the asset at time of instantiation.
+    margin: float
+        The margin for the futures contract. Can be adjusted by calling adjust_margin().
+    maturity: str
+        The maturity of the futures contract. Format: 2000-10-01
+    amount: float
+        The amount of identical futures contracts purchased on the underlying.
+    quantity: int
+        The amount of shares for one futures contract.
+    position: str
+        Long position ('l') or short position ('s').
+    timestamp: str
+        Time the asset was added to the portfolio. Format: 2000-10-01
+    notes: str
+        Own notes about the financial asset.
+    """
+    def __init__(self, name, symbol, price: float, margin: float, maturity: str, amount=1.0,
+                 quantity: int=1, position: str='l', timestamp=None, notes=None):
         super().__init__(self, name, symbol, amount, timestamp, notes)
         self.price = price
         self.margin = margin
-        self.maturity = maturity
+        self.maturity = datetime.strptime(maturity, '%Y-%m-%d')
         self.quantity = quantity
         if position is not 'l' or 's': raise ValueError('Position must be \'l\' or \'s\'!')
         self.position = position

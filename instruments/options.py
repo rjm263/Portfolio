@@ -7,10 +7,37 @@ import yfinance as yf
 # add value+return for 'write' or create new class (?)
 
 class Option(Instrument):
-    def __init__(self, name, symbol, strike, maturity, premium, amount=1.0, quantity=100, position='c', timestamp=None, notes=None):
+    """
+    Class for options; inherits from Instrument class.
+
+    Parameters:
+    ----------
+    name: str
+        Name of the asset. Can be any, no need to coincide with symbol.
+    symbol: str
+        The symbol of the financial asset.
+    strike: float
+        The strike price of the options contract.
+    maturity: str
+        The maturity of the options contract. Format: 2000-10-01
+    premium: float
+        The premium that has to be paid. (Support for writing to come...)
+    amount: float
+        The amount of identical options contracts purchased on the underlying.
+    quantity: int
+        The amount of shares for one options contract (default are 100).
+    position: str
+        Call position ('c') or put position ('p').
+    timestamp: str
+        Time the asset was added to the portfolio. Format: 2000-10-01
+    notes: str
+        Own notes about the financial asset.
+    """
+    def __init__(self, name, symbol, strike: float, maturity: str, premium: float, amount=1.0,
+                 quantity: int=100, position: str='c', timestamp=None, notes=None):
         super().__init__(self, name, symbol, amount, timestamp, notes)
         self.strike = strike
-        self.maturity = maturity
+        self.maturity = datetime.strptime(maturity, '%Y-%m-%d')
         self.premium = premium
         self.quantity = quantity
         if position is not 'c' or 'p': raise ValueError('Position argument must be \'c\' or \'p\'!')

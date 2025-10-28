@@ -1,20 +1,25 @@
 import pandas as pd
-from stocks import Stock
-from savings_plans import SavingsPlan
-from bonds import Bond
-from futures import Future
-from options import Option
+from instruments.stocks import Stock
+from instruments.savings_plans import SavingsPlan
+from instruments.bonds import Bond
+from instruments.futures import Future
+from instruments.options import Option
 
 class Portfolio:
-    """Container class for all assets; grouped by type."""
+    """
+    Class for the creation of a portfolio.
+
+    A Portfolio instance p can be set as 'active' by calling set_active(p). All assets
+    subsequently instantiated are registered to the active portfolio.
+    """
     active_portfolio = None
 
     def __init__(self):
-        self.stocks = []
-        self.savings_plans = []
-        self.bonds = []
-        self.futures = []
-        self.options = []
+        self.stocks = {}
+        self.savings_plans = {}
+        self.bonds = {}
+        self.futures = {}
+        self.options = {}
         self.cash = pd.DataFrame({'Origin': [], 'Amount': []})
         self.cash.index.name = 'Date'
 
